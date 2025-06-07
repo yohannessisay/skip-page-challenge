@@ -46,14 +46,14 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
                 src="/placeholder.svg" 
                 alt="Skip placeholder" 
                 className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-xl backdrop-blur-sm bg-white/30 p-4"
-                style={{ filter: 'blur(2px)' }}
+                style={{ filter: 'blur(0px)' }}
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-2">
+                  <div className="text-4xl font-bold text-black dark:text-amber-400 mb-2">
                     {skip.size}
                   </div>
-                  <div className="text-sm text-amber-700 dark:text-amber-300">
+                  <div className="text-xl text-black dark:text-amber-300">
                     Yard Skip
                   </div>
                 </div>

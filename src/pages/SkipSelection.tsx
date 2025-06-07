@@ -79,19 +79,13 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
 
   return (
     <ErrorBoundary>
-      <div
-        className="min-h-screen font-dosis"
-        style={{
-          backgroundColor: "#ee5522",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23d23d09'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='1'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "25px 25px",
-        }}
+      <div 
+     className="min-h-screen font-dosis bg-gradient-to-r from-slate-100 via-blue-50 to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-850"
       >
         {/* Header with background refresh indicator */}
         <header
-          className={`sticky top-0 z-40 w-full border-b shadow-md bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-200 ${
-            isScrolled ? "shadow-sm" : ""
+          className={`sticky top-0 rounded-md z-40 w-full border-b shadow-md supports-[backdrop-filter]:bg-background/60 transition-all duration-200 ${
+            isScrolled ? "shadow-md backdrop-blur-md bg-background/95" : ""
           }`}
         >
           <div className="container flex h-16 items-center justify-between">
@@ -149,7 +143,7 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
 
           {/* Skip Cards */}
           {!isLoading && skips.length > 0 && (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-12  ">
+            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mt-12  ">
               {skips.map((skip) => (
                 <div key={skip.id} onMouseEnter={() => handleSkipHover(skip)}>
                   <SkipCard

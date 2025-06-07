@@ -21,7 +21,7 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
       }`}
       onClick={() => onSelect(skip)}
     >
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col h-full p-8">
         {/* Skip Image Placeholder */}
         <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat">
           <div className="absolute inset-0 flex items-center justify-center border-b">
@@ -29,14 +29,14 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
               src="/placeholder.svg" 
               alt="Skip placeholder" 
               className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-2 sm:p-4"
-              style={{ filter: 'blur(1px)' }}
+              style={{ filter: 'blur(0px)' }}
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-center">
-                <div className="text-2xl sm:text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
+                <div className="text-3xl sm:text-4xl font-bold text-black dark:text-amber-400 mb-1">
                   {skip.size}
                 </div>
-                <div className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 font-medium">
+                <div className="text-xs sm:text-xl text-black dark:text-amber-300 font-medium">
                   Yard Skip
                 </div>
               </div>

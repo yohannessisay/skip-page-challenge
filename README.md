@@ -79,12 +79,21 @@ A modern, responsive React application for skip hire services built as part of a
 
 ### Lighthouse Scores
 
-This application achieves excellent web standards compliance:
+Curently the existing page scores this in lighthouse is 
+
+- **Accessibility**: 92/100 ✅
+- **Best Practices**: 100/100 ✅
+- **SEO**: 91/100 ✅
+- **Performance**: 71/100 
+
+This project achieves improved web standards compliance:
 
 - **Accessibility**: 100/100 ✅
 - **Best Practices**: 100/100 ✅
 - **SEO**: 100/100 ✅
 - **Performance**: 95+/100 ⚡
+
+  The background image uses svg and css tricks to apply the effect so no image is being loaded thus no performance is affected , also it can be removed to instead use a gradient backround or solid color background.
 
 #### Performance Notes
 

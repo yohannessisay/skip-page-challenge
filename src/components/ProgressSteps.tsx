@@ -67,7 +67,7 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
                 <div
                   className={`flex items-center justify-center w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 transition-colors duration-200 ${
                     step.completed
-                      ? 'bg-green-500 border-green-500 text-white'
+                      ? 'bg-teal-700 border-teal-700 text-white'
                       : step.current
                       ? 'bg-blue-500 border-blue-500 text-white'
                       : 'bg-muted border-muted-foreground/30 text-muted-foreground'
