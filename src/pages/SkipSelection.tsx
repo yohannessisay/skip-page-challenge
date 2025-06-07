@@ -73,8 +73,7 @@ const SkipSelection: React.FC = () => {
     toast({
       title: "Skip Selected",
       description: `${selectedSkip?.size} Yard Skip has been added to your booking.`,
-    });
-    // Here you would typically navigate to the next step
+    }); 
   };
 
   const handleRetry = () => {
@@ -141,19 +140,19 @@ const SkipSelection: React.FC = () => {
         <ThemeToggle />
         <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
         
-        <div className="max-w-6xl mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
           {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
               Choose Your Skip Size
             </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
               Select the skip size that best suits your needs. All prices include VAT and delivery.
             </p>
           </div>
 
           {/* Skip Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {skips.map((skip) => (
               <SkipCard
                 key={skip.id}
@@ -165,8 +164,8 @@ const SkipSelection: React.FC = () => {
           </div>
 
           {skips.length === 0 && (
-            <div className="text-center py-12">
-              <div className="text-muted-foreground">
+            <div className="text-center py-8 sm:py-12 px-4">
+              <div className="text-muted-foreground text-sm sm:text-base">
                 No skip options available for this location.
               </div>
               <Button variant="outline" onClick={handleRetry} className="mt-4">

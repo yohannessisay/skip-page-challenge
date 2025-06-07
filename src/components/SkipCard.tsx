@@ -28,58 +28,58 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
             <img 
               src="/placeholder.svg" 
               alt="Skip placeholder" 
-              className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-4"
+              className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-2 sm:p-4"
               style={{ filter: 'blur(1px)' }}
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-center">
-                <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
+                <div className="text-2xl sm:text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
                   {skip.size}
                 </div>
-                <div className="text-sm text-amber-700 dark:text-amber-300 font-medium">
+                <div className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 font-medium">
                   Yard Skip
                 </div>
               </div>
             </div>
           </div>
-          <Badge className="absolute top-3 right-3 bg-primary text-primary-foreground">
+          <Badge className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-primary text-primary-foreground text-xs">
             {skip.size} Yards
           </Badge>
           {skip.allowed_on_road && (
-            <Badge className="absolute top-3 left-3 bg-green-600 dark:bg-green-700">
+            <Badge className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-green-600 dark:bg-green-700 text-xs">
               Road Permit
             </Badge>
           )}
         </div>
 
         {/* Content */}
-        <div className="p-4 flex flex-col flex-grow">
+        <div className="p-3 sm:p-4 flex flex-col flex-grow">
           <div className="flex-grow">
-            <h3 className="text-xl font-semibold mb-2">
+            <h3 className="text-lg sm:text-xl font-semibold mb-2">
               {skip.size} Yard Skip
             </h3>
-            <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-3">
               <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
+                <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>{skip.hire_period_days} day hire</span>
               </div>
               <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span>{skip.postcode}</span>
               </div>
             </div>
 
-            <div className="mb-4">
-              <div className="text-3xl font-bold text-primary mb-1">
+            <div className="mb-3 sm:mb-4">
+              <div className="text-2xl sm:text-3xl font-bold text-primary mb-1">
                 £{totalPrice.toFixed(0)}
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-xs sm:text-sm text-muted-foreground">
                 Inc. VAT
               </div>
             </div>
 
             {/* Features */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-1 sm:gap-2 mb-3 sm:mb-4">
               {skip.allows_heavy_waste && (
                 <Badge variant="secondary" className="text-xs">
                   Heavy Waste OK
