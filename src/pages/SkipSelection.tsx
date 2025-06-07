@@ -99,22 +99,7 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
               )}
             </div>
             <div className="flex items-center gap-2">
-              {/* View Mode Toggle */}
-              {!isLoading && skips.length > 0 && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
-                  className="hidden sm:flex"
-                >
-                  {viewMode === 'carousel' ? (
-                    <Grid3X3 className="h-4 w-4 mr-2" />
-                  ) : (
-                    <Shuffle className="h-4 w-4 mr-2" />
-                  )}
-                  {viewMode === 'carousel' ? 'Grid View' : 'Carousel View'}
-                </Button>
-              )}
+            
               <ThemeToggle />
             </div>
           </div>
