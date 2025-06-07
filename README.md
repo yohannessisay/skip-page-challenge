@@ -39,7 +39,6 @@ A modern, responsive React application for skip hire services built as part of a
   - Optimistic updates and error handling
   - Prefetching and pagination support
   - Automatic retry logic and stale-while-revalidate
-- **React Hook Form 7.53.0** - Performant forms with easy validation
 - **Zod 3.23.8** - TypeScript-first schema validation
 
 ### Additional Libraries
@@ -79,12 +78,12 @@ A modern, responsive React application for skip hire services built as part of a
 
 ### Lighthouse Scores
 
-Curently the existing page scores this in lighthouse is 
+Curently the existing page scores this in lighthouse is
 
 - **Accessibility**: 92/100 ✅
 - **Best Practices**: 100/100 ✅
 - **SEO**: 91/100 ✅
-- **Performance**: 71/100 
+- **Performance**: 71/100
 
 This project achieves improved web standards compliance:
 

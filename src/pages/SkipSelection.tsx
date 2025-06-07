@@ -99,11 +99,13 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
           </div>
         </header>
 
-        <main className="container py-2">
-          <ProgressSteps
-            currentStep="select-skip"
-            completedSteps={["postcode", "waste-type"]}
-          />
+        <main className="container py-2 pt-20">
+          <div className="max-w-none">
+            <ProgressSteps
+              currentStep="select-skip"
+              completedSteps={["postcode", "waste-type"]}
+            />
+          </div>
 
           {/* Error State */}
           {isError && (
@@ -143,7 +145,7 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
 
           {/* Skip Cards */}
           {!isLoading && skips.length > 0 && (
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 mt-12  ">
+            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 sm:mt-12 mt-0  ">
               {skips.map((skip) => (
                 <div key={skip.id} onMouseEnter={() => handleSkipHover(skip)}>
                   <SkipCard

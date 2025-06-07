@@ -58,8 +58,8 @@ export const ProgressSteps: React.FC<ProgressStepsProps> = ({
   ];
 
   return (
-    <div className="w-full bg-card border-b shadow-md flex justify-center md  z-10">
-      <div className="max-w-xl px-2 sm:px-4 py-3 sm:py-4">
+    <div className="fixed top-16 left-0 right-0 mx-auto bg-card border-b shadow-sm flex justify-center z-30">
+      <div className="max-w-4xl px-2 sm:px-4 py-3 sm:py-4 w-full">
         <div className="flex items-center justify-between overflow-x-auto">
           {steps.map((step, index) => (
             <React.Fragment key={step.id}>
