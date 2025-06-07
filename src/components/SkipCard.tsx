@@ -46,7 +46,7 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
             {skip.size} Yards
           </Badge>
           {skip.allowed_on_road && (
-            <Badge className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-green-600 dark:bg-green-700 text-xs">
+            <Badge className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-green-800 dark:bg-green-900 text-white font-semibold text-xs">
               Road Permit
             </Badge>
           )}
@@ -55,9 +55,9 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
         {/* Content */}
         <div className="p-3 sm:p-4 flex flex-col flex-grow">
           <div className="flex-grow">
-            <h3 className="text-lg sm:text-xl font-semibold mb-2">
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">
               {skip.size} Yard Skip
-            </h3>
+            </h2>
             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-3">
               <div className="flex items-center gap-1">
                 <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />

@@ -158,7 +158,8 @@ const SkipSelection: React.FC = () => {
             </div>
           </div>
         </div>
- 
+        
+        {/* Content with top padding */}
         <div className="pt-48 sm:pt-56 md:pt-64">
           <div className="max-w-2xl mx-auto px-4 py-8">
             <Alert variant="destructive">
