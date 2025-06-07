@@ -31,7 +31,7 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg w-[calc(100vw-2rem)] rounded-md sm:w-full max-h-[80vh] overflow-y-auto font-dosis">
+      <DialogContent className="max-w-xl w-[calc(100vw-2rem)] rounded-md sm:w-full max-h-[80vh] overflow-y-auto font-dosis">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             {skip.size} Yard Skip Details
