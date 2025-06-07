@@ -10,224 +10,154 @@ import { ProgressSteps } from '../components/ProgressSteps';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { Skip } from '../types/skip';
-import { apiService } from '../services/apiService';
 import { toast } from '@/hooks/use-toast';
+import { useSkips, usePrefetchSkips } from '../hooks/useSkips';
 
-const SkipSelection: React.FC = () => {
-  const [skips, setSkips] = useState<Skip[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface SkipSelectionProps {
+  postcode?: string;
+  area?: string;
+}
+
+const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
   const [selectedSkip, setSelectedSkip] = useState<Skip | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // TanStack Query handles all the complexity with enhanced caching
+  const { data: skips = [], isLoading, error, refetch, isError, isFetching } = useSkips(postcode, area);
+  const { prefetchSkip } = usePrefetchSkips();
 
-  // Add scroll detection
+  // Scroll detection
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      setIsScrolled(scrollTop > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const fetchSkips = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      // Call the working API endpoint directly using apiService.get
-      const response = await apiService.get(
-        '/skips/by-location?postcode=NR32&area=Lowestoft'
-      );
-      console.log('API Response:', response);
-      // Handle different response formats
-      if (Array.isArray(response)) {
-        setSkips(response);
-      } else if (
-        typeof response === 'object' &&
-        response !== null &&
-        'data' in response &&
-        Array.isArray((response as { data?: unknown }).data)
-      ) {
-        setSkips((response as { data: Skip[] }).data);
-      } else { 
-        setSkips([]);
-      }
-    } catch (err: unknown) {
-      console.error('Error fetching skips:', err);
-      let errorMessage = 'Failed to load skip options';
-      if (err instanceof Error) {
-        errorMessage = err.message;
-      }
-      setError(errorMessage);
+  // Error toast
+  useEffect(() => {
+    if (isError && error) {
       toast({
         title: "Error",
         description: "Failed to load skip options. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
-  };
-
-  useEffect(() => {
-    fetchSkips();
-  }, []);
+  }, [isError, error]);
 
   const handleSelectSkip = (skip: Skip) => {
     setSelectedSkip(skip);
     setIsModalOpen(true);
   };
 
+  // Prefetch skip details on hover for instant modal loading
+  const handleSkipHover = (skip: Skip) => {
+    if (skip.id) {
+      prefetchSkip(skip.id);
+    }
+  };
+
   const handleContinue = () => {
-    setIsModalOpen(false);
-    toast({
-      title: "Skip Selected",
-      description: `${selectedSkip?.size} Yard Skip has been added to your booking.`,
-    }); 
+    if (selectedSkip) {
+      toast({
+        title: "Skip Selected!",
+        description: `You've selected a ${selectedSkip.size} yard skip for £${(selectedSkip.price_before_vat + (selectedSkip.price_before_vat * selectedSkip.vat / 100)).toFixed(2)}`,
+      });
+      setIsModalOpen(false);
+    }
   };
-
-  const handleRetry = () => {
-    fetchSkips();
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background font-dosis"> 
-        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
-        }`}>
-          <ThemeToggle />
-          <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
-          
-          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
-                Choose Your Skip Size
-              </h1>
-              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-                Select the skip size that best suits your needs. All prices include VAT and delivery.
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Content with top padding to account for fixed header */}
-        <div className="pt-48 sm:pt-56 md:pt-64">
-          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="p-0">
-                  <Skeleton className="aspect-video rounded-t-lg" />
-                  <div className="p-4 space-y-3">
-                    <Skeleton className="h-6 w-32" />
-                    <Skeleton className="h-4 w-full" />
-                    <div className="flex justify-between items-center">
-                      <Skeleton className="h-8 w-16" />
-                      <Skeleton className="h-9 w-24" />
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="min-h-screen bg-background font-dosis">
-     
-        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
-        }`}>
-          <ThemeToggle />
-          <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
-          
-          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
-                Choose Your Skip Size
-              </h1>
-              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-                Select the skip size that best suits your needs. All prices include VAT and delivery.
-              </p>
-            </div>
-          </div>
-        </div>
-        
-        {/* Content with top padding */}
-        <div className="pt-48 sm:pt-56 md:pt-64">
-          <div className="max-w-2xl mx-auto px-4 py-8">
-            <Alert variant="destructive">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertDescription className="flex items-center justify-between">
-                <span>{error}</span>
-                <Button variant="outline" size="sm" onClick={handleRetry}>
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  Retry
-                </Button>
-              </AlertDescription>
-            </Alert>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background font-dosis">
-      
-        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
+        {/* Header with background refresh indicator */}
+        <header className={`sticky top-0 z-40 w-full border-b shadow-md bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-200 ${
+          isScrolled ? 'shadow-sm' : ''
         }`}>
-          <ThemeToggle />
+          <div className="container flex h-16 items-center justify-between">
+            <div className="flex items-center gap-2">
+              <h1 className="text-xl font-semibold">Choose Your Skip Size</h1>
+              {isFetching && !isLoading && (
+                <RefreshCw className="h-4 w-4 animate-spin text-muted-foreground" />
+              )}
+            </div>
+            <ThemeToggle />
+          </div>
+        </header>
+
+        <main className="container py-2">
           <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
           
-          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
-            <div className="text-center">
-              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
-                Choose Your Skip Size
-              </h1>
-              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-                Select the skip size that best suits your needs. All prices include VAT and delivery.
-              </p>
-            </div>
-          </div>
-        </div>
-         
-        <div className="pt-48 sm:pt-56 md:pt-64">
-          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
-            {/* Skip Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {skips.map((skip) => (
-                <SkipCard
-                  key={skip.id}
-                  skip={skip}
-                  onSelect={handleSelectSkip}
-                  isSelected={selectedSkip?.id === skip.id}
-                />
+          {/* Error State */}
+          {isError && (
+            <Alert className="mb-6">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="flex items-center justify-between">
+                <span>Failed to load skip options. Please try again.</span>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => refetch()}
+                  disabled={isFetching}
+                >
+                  {isFetching ? (
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                  ) : (
+                    'Retry'
+                  )}
+                </Button>
+              </AlertDescription>
+            </Alert>
+          )}
+
+          {/* Loading State */}
+          {isLoading && (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <Card key={i} className="p-6">
+                  <Skeleton className="h-8 w-24 mb-4" />
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-3/4 mb-4" />
+                  <Skeleton className="h-10 w-full" />
+                </Card>
               ))}
             </div>
+          )}
 
-            {skips.length === 0 && (
-              <div className="text-center py-8 sm:py-12 px-4">
-                <div className="text-muted-foreground text-sm sm:text-base">
-                  No skip options available for this location.
+          {/* Skip Cards */}
+          {!isLoading && skips.length > 0 && (
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-24">
+              {skips.map((skip) => (
+                <div 
+                  key={skip.id} 
+                  onMouseEnter={() => handleSkipHover(skip)}
+                >
+                  <SkipCard
+                    skip={skip}
+                    onSelect={() => handleSelectSkip(skip)}
+                  />
                 </div>
-                <Button variant="outline" onClick={handleRetry} className="mt-4">
-                  <RefreshCw className="h-4 w-4 mr-2" />
-                  Try Again
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
- 
+              ))}
+            </div>
+          )}
+
+          {/* No Results */}
+          {!isLoading && !isError && skips.length === 0 && (
+            <Card className="p-8 text-center">
+              <p className="text-muted-foreground mb-4">
+                No skip options available for this location.
+              </p>
+              <Button onClick={() => refetch()} disabled={isFetching}>
+                {isFetching ? (
+                  <RefreshCw className="h-4 w-4 animate-spin mr-2" />
+                ) : null}
+                Try Again
+              </Button>
+            </Card>
+          )}
+        </main>
+
+        {/* Modal */}
         <SkipDetailsModal
           skip={selectedSkip}
           isOpen={isModalOpen}

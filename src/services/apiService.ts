@@ -1,11 +1,11 @@
 
-import { ApiResponse, ApiError } from '../types/skip';
+import { ApiError, Skip } from '../types/skip';
 
 class ApiService {
   private baseUrl: string;
   
-  constructor(baseUrl: string = 'https://app.wewantwaste.co.uk/api') {
-    this.baseUrl = baseUrl;
+  constructor(baseUrl?: string) {
+    this.baseUrl = baseUrl || import.meta.env.VITE_API_BASE_URL || 'https://app.wewantwaste.co.uk/api';
   }
 
   private async handleResponse<T>(response: Response): Promise<T> {
@@ -52,41 +52,29 @@ class ApiService {
     }
   }
 
-  // GET request
+  // Only keep GET since we only need to fetch skips
   async get<T>(endpoint: string): Promise<T> {
     return this.request<T>(endpoint, { method: 'GET' });
   }
 
-  // POST request
-  async post<T>(endpoint: string, data?: unknown): Promise<T> {
-    return this.request<T>(endpoint, {
-      method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-    });
+  // Specific method for skips
+  async getSkipsByLocation(
+    postcode: string = import.meta.env.VITE_DEFAULT_POSTCODE || 'NR32',
+    area: string = import.meta.env.VITE_DEFAULT_AREA || 'Lowestoft'
+  ): Promise<Skip[]> {
+    const response = await this.get<Skip[] | { data: Skip[] }>(
+      `/skips/by-location?postcode=${postcode}&area=${area}`
+    );
+    
+    // Handle different response formats
+    if (Array.isArray(response)) {
+      return response;
+    } else if (response && 'data' in response && Array.isArray(response.data)) {
+      return response.data;
+    }
+    
+    return [];
   }
-
-  // PUT request
-  async put<T>(endpoint: string, data?: unknown): Promise<T> {
-    return this.request<T>(endpoint, {
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  // PATCH request
-  async patch<T>(endpoint: string, data?: unknown): Promise<T> {
-    return this.request<T>(endpoint, {
-      method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
-    });
-  }
-
-  // DELETE request
-  async delete<T>(endpoint: string): Promise<T> {
-    return this.request<T>(endpoint, { method: 'DELETE' });
-  }
-
- 
 }
 
 // Create and export a singleton instance
