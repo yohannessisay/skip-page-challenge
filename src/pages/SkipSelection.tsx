@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,117 +24,23 @@ const SkipSelection: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
-      
-      // Using the sample data structure as mentioned in the requirements
-      const response = await apiService.getSkipsByLocation('NR32', 'Lowestoft');
+      // Call the working API endpoint directly using apiService.get
+      const response = await apiService.get(
+        '/skips/by-location?postcode=NR32&area=Lowestoft'
+      );
       console.log('API Response:', response);
-      
       // Handle different response formats
       if (Array.isArray(response)) {
         setSkips(response);
-      } else if (response.data && Array.isArray(response.data)) {
-        setSkips(response.data);
-      } else {
-        // Fallback sample data based on the provided structure
-        const sampleSkips: Skip[] = [
-          {
-            id: 17933,
-            size: 4,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 211,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: true,
-            allows_heavy_waste: true
-          },
-          {
-            id: 17934,
-            size: 5,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 241,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: true,
-            allows_heavy_waste: true
-          },
-          {
-            id: 17935,
-            size: 6,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 264,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: true,
-            allows_heavy_waste: false
-          },
-          {
-            id: 17936,
-            size: 8,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 295,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: false,
-            allows_heavy_waste: true
-          },
-          {
-            id: 17937,
-            size: 10,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 330,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: false,
-            allows_heavy_waste: true
-          },
-          {
-            id: 17938,
-            size: 12,
-            hire_period_days: 14,
-            transport_cost: null,
-            per_tonne_cost: null,
-            price_before_vat: 365,
-            vat: 20,
-            postcode: "NR32",
-            area: "Lowestoft",
-            forbidden: false,
-            created_at: "2025-04-03T13:51:46.897146",
-            updated_at: "2025-04-07T13:16:52.813",
-            allowed_on_road: false,
-            allows_heavy_waste: true
-          }
-        ];
-        setSkips(sampleSkips);
+      } else if (
+        typeof response === 'object' &&
+        response !== null &&
+        'data' in response &&
+        Array.isArray((response as { data?: unknown }).data)
+      ) {
+        setSkips((response as { data: Skip[] }).data);
+      } else { 
+        setSkips([]);
       }
     } catch (err: unknown) {
       console.error('Error fetching skips:', err);

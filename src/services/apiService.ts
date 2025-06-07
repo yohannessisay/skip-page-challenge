@@ -58,7 +58,7 @@ class ApiService {
   }
 
   // POST request
-  async post<T>(endpoint: string, data?: any): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
@@ -66,7 +66,7 @@ class ApiService {
   }
 
   // PUT request
-  async put<T>(endpoint: string, data?: any): Promise<T> {
+  async put<T>(endpoint: string, data?: unknown): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
@@ -74,7 +74,7 @@ class ApiService {
   }
 
   // PATCH request
-  async patch<T>(endpoint: string, data?: any): Promise<T> {
+  async patch<T>(endpoint: string, data?: unknown): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PATCH',
       body: data ? JSON.stringify(data) : undefined,
@@ -86,13 +86,7 @@ class ApiService {
     return this.request<T>(endpoint, { method: 'DELETE' });
   }
 
-  // Specific method for fetching skips by location
-  async getSkipsByLocation(postcode: string, area?: string): Promise<any> {
-    const params = new URLSearchParams({ postcode });
-    if (area) params.append('area', area);
-    
-    return this.get(`/skips/by-location?${params.toString()}`);
-  }
+ 
 }
 
 // Create and export a singleton instance

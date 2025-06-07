@@ -24,12 +24,12 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
       <div className="flex flex-col h-full">
         {/* Skip Image Placeholder */}
         <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat">
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center border-b">
             <img 
               src="/placeholder.svg" 
               alt="Skip placeholder" 
               className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-4"
-              style={{ filter: 'blur(2px)' }}
+              style={{ filter: 'blur(1px)' }}
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="text-center">
