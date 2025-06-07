@@ -16,19 +16,19 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
 
   return (
     <Card 
-      className={`group cursor-pointer shadow-md rounded-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1 font-dosis overflow-hidden ${
+      className={`group cursor-pointer  shadow-md rounded-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1 font-dosis overflow-hidden ${
         isSelected ? 'ring-2 ring-primary shadow-lg' : ''
       }`}
       onClick={() => onSelect(skip)}
     >
       <div className="flex flex-col h-full p-8">
         {/* Skip Image Placeholder */}
-        <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat">
+        <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat ">
           <div className="absolute inset-0 flex items-center justify-center border-b">
             <img 
               src="/placeholder.svg" 
               alt="Skip placeholder" 
-              className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-2 sm:p-4"
+              className="dark:bg-slate-100  w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30  p-2 sm:p-4"
               style={{ filter: 'blur(0px)' }}
             />
             <div className="absolute inset-0 flex flex-col items-center justify-center">

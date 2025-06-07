@@ -45,7 +45,7 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
               <img 
                 src="/placeholder.svg" 
                 alt="Skip placeholder" 
-                className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-xl backdrop-blur-sm bg-white/30 p-4"
+                className="dark:bg-slate-100 w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-xl backdrop-blur-sm bg-white/30 p-4"
                 style={{ filter: 'blur(0px)' }}
               />
               <div className="absolute inset-0 flex flex-col items-center justify-center">
