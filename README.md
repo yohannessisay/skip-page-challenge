@@ -1,11 +1,10 @@
-# Skip Hire Challenge - React Application
+# Skip Hire Challenge
 
 A modern, responsive React application for skip hire services built as part of a coding challenge. The application allows users to browse and select skip hire options with a completely redesigned interface while maintaining full functionality.
 
 ## 🚀 Live Demo
 
-- **API Data Source**: [Skip Options API](https://app.wewantwaste.co.uk/api/skips/by-location?postcode=NR32&area=Lowestoft)
-- **Submission Form**: [Challenge Submission](https://forms.gle/N6nKLgW8CMqZ2eFY8)
+- **Live website**:[https://skip-page-challenge.vercel.app/](https://skip-page-challenge.vercel.app/)
 
 ## 📋 Challenge Requirements
 
@@ -35,7 +34,11 @@ A modern, responsive React application for skip hire services built as part of a
 
 ### State Management & Data Fetching
 
-- **TanStack Query (React Query) 5.56.2** - Powerful data synchronization
+- **TanStack Query (React Query) 5.56.2** - Powerful data synchronization for server state management
+  - Smart caching and background updates
+  - Optimistic updates and error handling
+  - Prefetching and pagination support
+  - Automatic retry logic and stale-while-revalidate
 - **React Hook Form 7.53.0** - Performant forms with easy validation
 - **Zod 3.23.8** - TypeScript-first schema validation
 
@@ -45,6 +48,32 @@ A modern, responsive React application for skip hire services built as part of a
 - **clsx & tailwind-merge** - Conditional CSS classes
 - **date-fns** - Modern JavaScript date utility library
 - **Sonner** - Toast notifications
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (version 18 or higher)
+- npm or yarn package manager
+
+### Installation & Setup
+
+1. **Clone the repository**
+2. ```bash
+   git clone https://github.com/yohannessisay/skip-page-challenge.git
+   cd skip-page-challenge
+   npm install
+   npm run dev
+
+   ```
+
+   Before runing the projectr set this environment values by creating .env file
+
+   > VITE_API_BASE_URL=https://app.wewantwaste.co.uk/api
+   > VITE_APP_NAME=Skip Hire Challenge
+   > VITE_DEFAULT_POSTCODE=NR32
+   > VITE_DEFAULT_AREA=Lowestoft
+   >
 
 ## 🏆 Performance & Quality
 

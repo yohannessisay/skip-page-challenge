@@ -69,7 +69,11 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-background font-dosis">
+      <div className="min-h-screen font-dosis" style={{
+        backgroundColor: '#e5e5f7',
+        opacity: 0.9,
+        backgroundImage: 'repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 10px), repeating-linear-gradient(#444cf755, #444cf7)'
+      }}>
         {/* Header with background refresh indicator */}
         <header className={`sticky top-0 z-40 w-full border-b shadow-md bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-200 ${
           isScrolled ? 'shadow-sm' : ''
