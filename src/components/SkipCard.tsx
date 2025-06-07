@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -24,14 +23,22 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
     >
       <div className="flex flex-col h-full">
         {/* Skip Image Placeholder */}
-        <div className="relative aspect-video bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/30">
+        <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat">
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
-                {skip.size}
-              </div>
-              <div className="text-sm text-amber-700 dark:text-amber-300 font-medium">
-                Yard Skip
+            <img 
+              src="/placeholder.svg" 
+              alt="Skip placeholder" 
+              className="w-2/3 h-2/3 object-contain mx-auto my-auto rounded-md shadow-lg backdrop-blur-sm bg-white/30 p-4"
+              style={{ filter: 'blur(2px)' }}
+            />
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
+              <div className="text-center">
+                <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-1">
+                  {skip.size}
+                </div>
+                <div className="text-sm text-amber-700 dark:text-amber-300 font-medium">
+                  Yard Skip
+                </div>
               </div>
             </div>
           </div>
