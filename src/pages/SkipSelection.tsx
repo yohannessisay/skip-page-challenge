@@ -137,9 +137,13 @@ const SkipSelection: React.FC = () => {
         ];
         setSkips(sampleSkips);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error fetching skips:', err);
-      setError(err.message || 'Failed to load skip options');
+      let errorMessage = 'Failed to load skip options';
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+      setError(errorMessage);
       toast({
         title: "Error",
         description: "Failed to load skip options. Please try again.",

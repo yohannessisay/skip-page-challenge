@@ -17,7 +17,7 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
 
   return (
     <Card 
-      className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 font-dosis overflow-hidden ${
+      className={`group cursor-pointer shadow-md rounded-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1 font-dosis overflow-hidden ${
         isSelected ? 'ring-2 ring-primary shadow-lg' : ''
       }`}
       onClick={() => onSelect(skip)}
