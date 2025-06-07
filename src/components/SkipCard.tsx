@@ -21,7 +21,7 @@ export const SkipCard: React.FC<SkipCardProps> = ({ skip, onSelect, isSelected }
       }`}
       onClick={() => onSelect(skip)}
     >
-      <div className="flex flex-col h-full p-8">
+      <div className="flex flex-col h-full p-2">
         {/* Skip Image Placeholder */}
         <div className="relative aspect-video rounded-md overflow-hidden flex items-center justify-center bg-center bg-cover bg-no-repeat ">
           <div className="absolute inset-0 flex items-center justify-center border-b">

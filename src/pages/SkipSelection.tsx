@@ -1,10 +1,12 @@
+
 import React, { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertTriangle, RefreshCw } from "lucide-react";
+import { AlertTriangle, RefreshCw, Grid3X3, Shuffle } from "lucide-react";
 import { SkipCard } from "../components/SkipCard";
+import { SkipCarousel } from "../components/SkipCarousel";
 import { SkipDetailsModal } from "../components/SkipDetailsModal";
 import { ProgressSteps } from "../components/ProgressSteps";
 import { ErrorBoundary } from "../components/ErrorBoundary";
@@ -22,6 +24,7 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
   const [selectedSkip, setSelectedSkip] = useState<Skip | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [viewMode, setViewMode] = useState<'carousel' | 'grid'>('carousel');
 
   // TanStack Query handles all the complexity with enhanced caching
   const {
@@ -80,7 +83,7 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
   return (
     <ErrorBoundary>
       <div 
-     className="min-h-screen font-dosis bg-gradient-to-r from-slate-100 via-blue-50 to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-850"
+        className="min-h-screen font-dosis bg-gradient-to-r from-slate-100 via-blue-50 to-emerald-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-850"
       >
         {/* Header with background refresh indicator */}
         <header
@@ -95,7 +98,25 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
                 <RefreshCw className="h-4 w-4 animate-spin text-muted-foreground" />
               )}
             </div>
-            <ThemeToggle />
+            <div className="flex items-center gap-2">
+              {/* View Mode Toggle */}
+              {!isLoading && skips.length > 0 && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setViewMode(viewMode === 'carousel' ? 'grid' : 'carousel')}
+                  className="hidden sm:flex"
+                >
+                  {viewMode === 'carousel' ? (
+                    <Grid3X3 className="h-4 w-4 mr-2" />
+                  ) : (
+                    <Shuffle className="h-4 w-4 mr-2" />
+                  )}
+                  {viewMode === 'carousel' ? 'Grid View' : 'Carousel View'}
+                </Button>
+              )}
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 
@@ -131,29 +152,41 @@ const SkipSelection: React.FC<SkipSelectionProps> = ({ postcode, area }) => {
 
           {/* Loading State */}
           {isLoading && (
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {Array.from({ length: 6 }).map((_, i) => (
-                <Card key={i} className="p-6">
-                  <Skeleton className="h-8 w-24 mb-4" />
-                  <Skeleton className="h-4 w-full mb-2" />
-                  <Skeleton className="h-4 w-3/4 mb-4" />
-                  <Skeleton className="h-10 w-full" />
-                </Card>
-              ))}
+            <div className="space-y-6">
+              <div className="flex justify-center">
+                <div className="w-full max-w-4xl">
+                  <Skeleton className="h-96 w-full rounded-lg" />
+                </div>
+              </div>
+              <div className="flex justify-center space-x-2">
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <Skeleton key={i} className="h-3 w-3 rounded-full" />
+                ))}
+              </div>
             </div>
           )}
 
-          {/* Skip Cards */}
+          {/* Skip Display */}
           {!isLoading && skips.length > 0 && (
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 sm:mt-12 mt-0  ">
-              {skips.map((skip) => (
-                <div key={skip.id} onMouseEnter={() => handleSkipHover(skip)}>
-                  <SkipCard
-                    skip={skip}
-                    onSelect={() => handleSelectSkip(skip)}
-                  />
+            <div className="mt-8">
+              {viewMode === 'carousel' ? (
+                <SkipCarousel
+                  skips={skips}
+                  onSelectSkip={handleSelectSkip}
+                  onSkipHover={handleSkipHover}
+                />
+              ) : (
+                <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+                  {skips.map((skip) => (
+                    <div key={skip.id} onMouseEnter={() => handleSkipHover(skip)}>
+                      <SkipCard
+                        skip={skip}
+                        onSelect={() => handleSelectSkip(skip)}
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           )}
 
