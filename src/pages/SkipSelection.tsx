@@ -19,6 +19,18 @@ const SkipSelection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedSkip, setSelectedSkip] = useState<Skip | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Add scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const fetchSkips = async () => {
     try {
@@ -82,30 +94,43 @@ const SkipSelection: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background font-dosis">
-        <ThemeToggle />
-        <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
-        
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <div className="text-center mb-8">
-            <div className="h-8 bg-muted rounded w-64 mx-auto mb-2" />
-            <div className="h-4 bg-muted rounded w-96 mx-auto" />
-          </div>
+      <div className="min-h-screen bg-background font-dosis"> 
+        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
+        }`}>
+          <ThemeToggle />
+          <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <Card key={i} className="p-0">
-                <Skeleton className="aspect-video rounded-t-lg" />
-                <div className="p-4 space-y-3">
-                  <Skeleton className="h-6 w-32" />
-                  <Skeleton className="h-4 w-full" />
-                  <div className="flex justify-between items-center">
-                    <Skeleton className="h-8 w-16" />
-                    <Skeleton className="h-9 w-24" />
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
+                Choose Your Skip Size
+              </h1>
+              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
+                Select the skip size that best suits your needs. All prices include VAT and delivery.
+              </p>
+            </div>
+          </div>
+        </div>
+        
+        {/* Content with top padding to account for fixed header */}
+        <div className="pt-48 sm:pt-56 md:pt-64">
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(6)].map((_, i) => (
+                <Card key={i} className="p-0">
+                  <Skeleton className="aspect-video rounded-t-lg" />
+                  <div className="p-4 space-y-3">
+                    <Skeleton className="h-6 w-32" />
+                    <Skeleton className="h-4 w-full" />
+                    <div className="flex justify-between items-center">
+                      <Skeleton className="h-8 w-16" />
+                      <Skeleton className="h-9 w-24" />
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -115,20 +140,38 @@ const SkipSelection: React.FC = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-background font-dosis">
-        <ThemeToggle />
-        <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
-        
-        <div className="max-w-2xl mx-auto px-4 py-8">
-          <Alert variant="destructive">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertDescription className="flex items-center justify-between">
-              <span>{error}</span>
-              <Button variant="outline" size="sm" onClick={handleRetry}>
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Retry
-              </Button>
-            </AlertDescription>
-          </Alert>
+     
+        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
+        }`}>
+          <ThemeToggle />
+          <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
+          
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
+                Choose Your Skip Size
+              </h1>
+              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
+                Select the skip size that best suits your needs. All prices include VAT and delivery.
+              </p>
+            </div>
+          </div>
+        </div>
+ 
+        <div className="pt-48 sm:pt-56 md:pt-64">
+          <div className="max-w-2xl mx-auto px-4 py-8">
+            <Alert variant="destructive">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertDescription className="flex items-center justify-between">
+                <span>{error}</span>
+                <Button variant="outline" size="sm" onClick={handleRetry}>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Retry
+                </Button>
+              </AlertDescription>
+            </Alert>
+          </div>
         </div>
       </div>
     );
@@ -137,46 +180,53 @@ const SkipSelection: React.FC = () => {
   return (
     <ErrorBoundary>
       <div className="min-h-screen bg-background font-dosis">
-        <ThemeToggle />
-        <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
-        
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
-          {/* Header */}
-          <div className="text-center mb-6 sm:mb-8">
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
-              Choose Your Skip Size
-            </h1>
-            <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-              Select the skip size that best suits your needs. All prices include VAT and delivery.
-            </p>
-          </div>
-
-          {/* Skip Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {skips.map((skip) => (
-              <SkipCard
-                key={skip.id}
-                skip={skip}
-                onSelect={handleSelectSkip}
-                isSelected={selectedSkip?.id === skip.id}
-              />
-            ))}
-          </div>
-
-          {skips.length === 0 && (
-            <div className="text-center py-8 sm:py-12 px-4">
-              <div className="text-muted-foreground text-sm sm:text-base">
-                No skip options available for this location.
-              </div>
-              <Button variant="outline" onClick={handleRetry} className="mt-4">
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Try Again
-              </Button>
+      
+        <div className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled ? 'backdrop-blur-md bg-background/80 shadow-lg' : 'bg-background'
+        }`}>
+          <ThemeToggle />
+          <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
+          
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+            <div className="text-center">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-foreground mb-2 sm:mb-3 px-2">
+                Choose Your Skip Size
+              </h1>
+              <p className="text-sm sm:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
+                Select the skip size that best suits your needs. All prices include VAT and delivery.
+              </p>
             </div>
-          )}
+          </div>
         </div>
+         
+        <div className="pt-48 sm:pt-56 md:pt-64">
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
+            {/* Skip Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+              {skips.map((skip) => (
+                <SkipCard
+                  key={skip.id}
+                  skip={skip}
+                  onSelect={handleSelectSkip}
+                  isSelected={selectedSkip?.id === skip.id}
+                />
+              ))}
+            </div>
 
-        {/* Skip Details Modal */}
+            {skips.length === 0 && (
+              <div className="text-center py-8 sm:py-12 px-4">
+                <div className="text-muted-foreground text-sm sm:text-base">
+                  No skip options available for this location.
+                </div>
+                <Button variant="outline" onClick={handleRetry} className="mt-4">
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Try Again
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+ 
         <SkipDetailsModal
           skip={selectedSkip}
           isOpen={isModalOpen}

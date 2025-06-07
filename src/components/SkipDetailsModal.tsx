@@ -31,7 +31,7 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg w-full max-h-[80vh] overflow-y-auto font-dosis">
+      <DialogContent className="max-w-lg w-[calc(100vw-2rem)] rounded-md sm:w-full max-h-[80vh] overflow-y-auto font-dosis">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             {skip.size} Yard Skip Details
@@ -87,33 +87,23 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
                 </div>
               </div>
             </div>
-
+            
             <div className="flex items-center gap-3">
               <MapPin className="h-5 w-5 text-muted-foreground" />
               <div>
                 <div className="font-medium">Location</div>
                 <div className="text-sm text-muted-foreground">
-                  {skip.postcode} {skip.area}
+                  {skip.postcode}
                 </div>
               </div>
             </div>
-
+            
             <div className="flex items-center gap-3">
               <Truck className="h-5 w-5 text-muted-foreground" />
               <div>
-                <div className="font-medium">Road Placement</div>
-                <div className="text-sm text-muted-foreground flex items-center gap-1">
-                  {skip.allowed_on_road ? (
-                    <>
-                      <CheckCircle className="h-4 w-4 text-green-500" />
-                      Allowed on road
-                    </>
-                  ) : (
-                    <>
-                      <AlertTriangle className="h-4 w-4 text-red-500" />
-                      Private property only
-                    </>
-                  )}
+                <div className="font-medium">Delivery & Collection</div>
+                <div className="text-sm text-muted-foreground">
+                  Included in price
                 </div>
               </div>
             </div>
@@ -122,52 +112,90 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
           <Separator />
 
           {/* Features */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="flex items-center gap-2">
-              {skip.allows_heavy_waste ? (
+          <div className="space-y-3">
+            <h4 className="font-medium">What's Included</h4>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-500" />
-              ) : (
-                <AlertTriangle className="h-4 w-4 text-red-500" />
+                <span className="text-sm">Free delivery and collection</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span className="text-sm">{skip.hire_period_days} day hire period</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 text-green-500" />
+                <span className="text-sm">VAT included</span>
+              </div>
+              {skip.allows_heavy_waste && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span className="text-sm">Heavy waste allowed</span>
+                </div>
               )}
-              <span className="text-sm">Heavy waste</span>
+              {skip.allowed_on_road && (
+                <div className="flex items-center gap-2">
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <span className="text-sm">Road placement permit included</span>
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle className="h-4 w-4 text-green-500" />
-              <span className="text-sm">Quick delivery</span>
+          </div>
+
+          {/* Restrictions */}
+          <div className="space-y-3">
+            <h4 className="font-medium">Important Information</h4>
+            <div className="space-y-2">
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
+                <span className="text-sm text-muted-foreground">
+                  No hazardous materials (asbestos, chemicals, paint, etc.)
+                </span>
+              </div>
+              <div className="flex items-start gap-2">
+                <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
+                <span className="text-sm text-muted-foreground">
+                  Skip must not be overloaded above rim level
+                </span>
+              </div>
+              {!skip.allows_heavy_waste && (
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="h-4 w-4 text-amber-500 mt-0.5" />
+                  <span className="text-sm text-muted-foreground">
+                    No heavy materials (concrete, soil, bricks)
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Price Breakdown */}
-          <Card className="p-3 bg-muted/50">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Price before VAT:</span>
-                <span>£{skip.price_before_vat}</span>
+          <Card className="p-4">
+            <h4 className="font-medium mb-3">Price Breakdown</h4>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span>Skip hire ({skip.hire_period_days} days)</span>
+                <span>£{skip.price_before_vat.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between">
-                <span>VAT ({skip.vat}%):</span>
-                <span>£{(skip.price_before_vat * skip.vat / 100).toFixed(0)}</span>
+              <div className="flex justify-between text-sm">
+                <span>VAT ({skip.vat}%)</span>
+                <span>£{(skip.price_before_vat * skip.vat / 100).toFixed(2)}</span>
               </div>
               <Separator />
               <div className="flex justify-between font-medium">
-                <span>Total:</span>
-                <span>£{totalPrice.toFixed(0)}</span>
+                <span>Total</span>
+                <span>£{totalPrice.toFixed(2)}</span>
               </div>
             </div>
           </Card>
 
-          {/* Disclaimer */}
-          <div className="text-xs text-muted-foreground bg-muted/30 p-3 rounded-lg">
-            Imagery and information shown throughout this website may not reflect the exact shape or size specification, colours may vary, options and/or accessories may be featured at additional cost.
-          </div>
-
           {/* Action Buttons */}
-          <div className="flex gap-3 pt-2">
+          <div className="flex gap-3 pt-4">
             <Button variant="outline" onClick={onClose} className="flex-1">
-              Back
+              Cancel
             </Button>
             <Button onClick={onContinue} className="flex-1">
-              Continue
+              Continue with this Skip
             </Button>
           </div>
         </div>

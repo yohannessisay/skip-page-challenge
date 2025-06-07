@@ -1,4 +1,3 @@
-
 export interface Skip {
   id: number;
   size: number;
@@ -24,11 +23,19 @@ export interface ApiResponse<T> {
 
 export class ApiError extends Error {
   status: number;
-  details?: any;
+  details?: Record<string, unknown>;
 
-  constructor({ message, status, details }: { message: string; status: number; details?: any }) {
+  constructor({
+    message,
+    status,
+    details,
+  }: {
+    message: string;
+    status: number;
+    details?: Record<string, unknown>;
+  }) {
     super(message);
-    this.name = 'ApiError';
+    this.name = "ApiError";
     this.status = status;
     this.details = details;
   }
