@@ -9,6 +9,7 @@ import { SkipCard } from '../components/SkipCard';
 import { SkipDetailsModal } from '../components/SkipDetailsModal';
 import { ProgressSteps } from '../components/ProgressSteps';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { Skip } from '../types/skip';
 import { apiService } from '../services/apiService';
 import { toast } from '@/hooks/use-toast';
@@ -173,7 +174,8 @@ const SkipSelection: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-background font-dosis">
+        <ThemeToggle />
         <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
         
         <div className="max-w-6xl mx-auto px-4 py-8">
@@ -204,7 +206,8 @@ const SkipSelection: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-background font-dosis">
+        <ThemeToggle />
         <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
         
         <div className="max-w-2xl mx-auto px-4 py-8">
@@ -225,16 +228,17 @@ const SkipSelection: React.FC = () => {
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="min-h-screen bg-background font-dosis">
+        <ThemeToggle />
         <ProgressSteps currentStep="select-skip" completedSteps={['postcode', 'waste-type']} />
         
         <div className="max-w-6xl mx-auto px-4 py-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-3">
               Choose Your Skip Size
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Select the skip size that best suits your needs. All prices include VAT and delivery.
             </p>
           </div>
@@ -253,7 +257,7 @@ const SkipSelection: React.FC = () => {
 
           {skips.length === 0 && (
             <div className="text-center py-12">
-              <div className="text-gray-500">
+              <div className="text-muted-foreground">
                 No skip options available for this location.
               </div>
               <Button variant="outline" onClick={handleRetry} className="mt-4">

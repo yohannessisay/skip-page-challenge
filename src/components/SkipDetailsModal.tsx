@@ -32,7 +32,7 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-md w-full max-h-[90vh] overflow-y-auto font-dosis">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold">
             {skip.size} Yard Skip Details
@@ -42,28 +42,28 @@ export const SkipDetailsModal: React.FC<SkipDetailsModalProps> = ({
         <div className="space-y-4">
           {/* Skip Image Placeholder */}
           <div className="relative">
-            <div className="aspect-video bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-lg flex items-center justify-center">
+            <div className="aspect-video bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/30 dark:to-amber-800/30 rounded-lg flex items-center justify-center">
               <div className="text-center">
-                <div className="text-4xl font-bold text-yellow-600 mb-2">
+                <div className="text-4xl font-bold text-amber-600 dark:text-amber-400 mb-2">
                   {skip.size}
                 </div>
-                <div className="text-sm text-yellow-700">
+                <div className="text-sm text-amber-700 dark:text-amber-300">
                   Yard Skip
                 </div>
               </div>
             </div>
-            <Badge className="absolute top-2 right-2 bg-blue-600">
+            <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">
               {skip.size} Yards
             </Badge>
           </div>
 
           {/* Price Card */}
-          <Card className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+          <Card className="p-4 bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20">
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-700">
+              <div className="text-3xl font-bold text-primary">
                 £{totalPrice.toFixed(0)}
               </div>
-              <div className="text-sm text-blue-600">
+              <div className="text-sm text-muted-foreground">
                 {skip.hire_period_days} day hire period
               </div>
             </div>
